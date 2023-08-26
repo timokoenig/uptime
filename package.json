@@ -13,6 +13,10 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.5.6",
+    "@types/node-cron": "^3.0.8",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.2"
   }
 }
