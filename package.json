@@ -6,19 +6,27 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --max-warnings 0 ./src/**/*",
+    "format": "eslint ./src/**/* --fix"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "mustache": "^4.2.0",
+    "node-cron": "^3.0.2"
+  },
   "devDependencies": {
     "@types/mustache": "^4.2.2",
     "@types/node": "^20.5.6",
     "@types/node-cron": "^3.0.8",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.2",
     "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "mustache": "^4.2.0",
-    "node-cron": "^3.0.2"
   }
 }
