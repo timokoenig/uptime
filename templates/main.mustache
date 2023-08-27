@@ -6,6 +6,22 @@
      <meta http-equiv="refresh" content="5; URL=/">
     <title>uptime</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .tooltip {
+        display: none;
+        position: absolute;
+      }
+
+      .has-tooltip {
+        position: relative;
+      }
+
+      .has-tooltip:hover .tooltip {
+        display: block;
+        top: -40px;
+        left: -40px;
+      }
+    </style>
   </head>
   <body>
     <main class="flex flex-col items-center m-8">
@@ -33,7 +49,7 @@
         <div class="grid grid-cols-1 gap-8">
 
           {{#services}}
-          <div class="rounded overflow-hidden shadow-lg">
+          <div class="rounded shadow-lg">
             <div class="px-6 py-4">
               <div class="grid grid-cols-2 gap-4">
                 <div>
@@ -72,10 +88,20 @@
               <div class="grid gap-1 mb-2" style="grid-template-columns: repeat(60, minmax(0, 1fr));">
                 {{#pings}}
                   {{#statusUp}}
-                  <div style="height: 30px" class="bg-green-500 hover:bg-green-600 rounded"></div>
+                  <div style="height: 30px" class="has-tooltip bg-green-500 hover:bg-green-600 rounded">
+                    <div class="tooltip rounded shadow-lg p-1 text-center bg-green-500 text-white text-xs z-10 whitespace-nowrap">
+                      <p>{{date}}</p>
+                      <p>{{latency}}ms</p>
+                    </div>
+                  </div>
                   {{/statusUp}}
                   {{#statusDown}}
-                  <div style="height: 30px" class="bg-red-500 hover:bg-red-600 rounded"></div>
+                  <div style="height: 30px" class="has-tooltip bg-red-500 hover:bg-red-600 rounded">
+                    <div class="tooltip rounded shadow-lg p-1 text-center bg-red-500 text-white text-xs z-10 whitespace-nowrap">
+                      <p>{{date}}</p>
+                      <p>{{latency}}ms</p>
+                    </div>
+                  </div>
                   {{/statusDown}}
                   {{#statusUnknown}}
                   <div style="height: 30px" class="bg-gray-300 hover:bg-gray-400 rounded"></div>

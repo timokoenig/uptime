@@ -1,5 +1,4 @@
 import * as http from 'http'
-import moment from 'moment'
 import { parseServiceViewModels } from '../utils/helper'
 import { renderMainTemplate } from '../utils/html'
 
@@ -13,7 +12,7 @@ export const webHandler = (req: http.IncomingMessage, res: http.ServerResponse) 
       : serviceViewModels[0].pings[0].date
 
   const html = renderMainTemplate({
-    LAST_PING: moment(lastPing).format('DD.MM.YYYY HH:mm'),
+    LAST_PING: lastPing,
     STATUS_UP: systemStatusOK,
     STATUS_DOWN: !systemStatusOK,
     services: serviceViewModels,

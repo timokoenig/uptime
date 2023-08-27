@@ -8,7 +8,8 @@ export type Ping = {
 }
 
 export type PingViewModel = {
-  date: moment.Moment
+  date: string
+  latency?: string
   statusUp: boolean
   statusDown: boolean
   statusUnknown: boolean

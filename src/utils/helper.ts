@@ -30,7 +30,7 @@ const parsePingViewModels = (pings: Ping[]): PingViewModel[] => {
   if (numberUnknownPings > 0) {
     for (let i = 0; i < numberUnknownPings; i++) {
       models.push({
-        date: moment(),
+        date: moment().format('DD.MM.YYYY HH:mm'),
         statusUp: false,
         statusDown: false,
         statusUnknown: true,
@@ -40,7 +40,8 @@ const parsePingViewModels = (pings: Ping[]): PingViewModel[] => {
 
   pings.forEach(ping => {
     models.push({
-      date: ping.date,
+      date: moment(ping.date).format('DD.MM.YYYY HH:mm'),
+      latency: ping.latency.toFixed(0),
       statusUp: ping.status == 200,
       statusDown: ping.status != 200,
       statusUnknown: false,
