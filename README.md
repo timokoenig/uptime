@@ -1,6 +1,8 @@
 # Uptime
 
-Simple uptime service to monitor websites. The cron runs every minute and sends an email when the requested service is not available (http status code 200).
+Simple uptime service to monitor websites. The cron runs every minute and sends an email when the requested service is not available (http status code != 200).
+
+<img src="resources/screenshot.png" />
 
 ## Getting Started
 
