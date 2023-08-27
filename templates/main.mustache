@@ -52,7 +52,7 @@
                 {{/statusUp}}
               </div>
               <div class="text-sm text-gray-500 mb-4">{{url}}</div>
-              <div class="grid gap-1" style="grid-template-columns: repeat(60, minmax(0, 1fr));">
+              <div class="grid gap-1 mb-4" style="grid-template-columns: repeat(60, minmax(0, 1fr));">
                 {{#pings}}
                   {{#statusUp}}
                   <div style="height: 30px" class="bg-green-500 hover:bg-green-600 rounded"></div>
@@ -64,6 +64,21 @@
                   <div style="height: 30px" class="bg-gray-300 hover:bg-gray-400 rounded"></div>
                   {{/statusUnknown}}
                 {{/pings}}
+              </div>
+
+              <div class="grid grid-cols-3 gap-8 text-center">
+                <div>
+                  <p class="text-sm text-gray-500">Latency min.</p>
+                  <p class="font-medium">{{LATENCY_MIN}}ms</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Latency max.</p>
+                  <p class="font-medium">{{LATENCY_MAX}}ms</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Latency avg.</p>
+                  <p class="font-medium">{{LATENCY_AVG}}ms</p>
+                </div>
               </div>
             </div>
           </div>
