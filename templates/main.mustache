@@ -68,7 +68,8 @@
 
                 </div>
               </div>
-              <div class="grid gap-1 mb-4" style="grid-template-columns: repeat(60, minmax(0, 1fr));">
+
+              <div class="grid gap-1 mb-2" style="grid-template-columns: repeat(60, minmax(0, 1fr));">
                 {{#pings}}
                   {{#statusUp}}
                   <div style="height: 30px" class="bg-green-500 hover:bg-green-600 rounded"></div>
@@ -80,6 +81,15 @@
                   <div style="height: 30px" class="bg-gray-300 hover:bg-gray-400 rounded"></div>
                   {{/statusUnknown}}
                 {{/pings}}
+              </div>
+
+              <div class="grid grid-cols-2 mb-4">
+                <div class="text-left text-xs text-gray-400">
+                  60 minutes ago
+                </div>
+                <div class="text-right text-xs text-gray-400">
+                  Now
+                </div>
               </div>
 
               <div class="grid grid-cols-3 gap-8 text-center">
