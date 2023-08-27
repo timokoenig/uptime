@@ -5,7 +5,7 @@ Simple uptime service to monitor websites. The cron runs every minute and sends 
 ## Getting Started
 
 * Create `.env` file and provide necessary values (see .env.example)
-* Create `update-config.json` file and provice necessary values (see update-config.json.example)
+* Create `uptime-config.json` file and provice necessary values (see uptime-config.json.example)
 * Run the following commands:
 
 ```sh
