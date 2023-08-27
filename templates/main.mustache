@@ -36,25 +36,38 @@
           <div class="rounded overflow-hidden shadow-lg">
             <div class="px-6 py-4">
               <div class="grid grid-cols-2 gap-4">
-                <a href="{{url}}" target="_blank" class="font-bold text-xl mb-1 hover:text-blue-500">
-                  {{name}}
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                  </svg>
-                </a>
+                <div>
+                  <a href="{{url}}" target="_blank" class="font-bold text-xl mb-1 hover:text-blue-500">
+                    {{name}}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    </svg>
+                  </a>
 
-                {{#statusDown}}
-                <div class="font-bold text-md mb-1 text-red-500 text-right">
-                  Failed
+                  <div class="text-sm text-gray-500 mb-4">{{url}}</div>
                 </div>
-                {{/statusDown}}
-                {{#statusUp}}
-                <div class="font-bold text-md mb-1 text-green-500 text-right">
-                  Operational
+
+                <div class='text-right'>
+                  {{#statusDown}}
+                  <div class="font-normal text-md mb-1 text-red-500 text-right">
+                    Failed
+                  </div>
+                  {{/statusDown}}
+                  {{#statusUp}}
+                  <div class="font-normal text-md mb-1 text-green-500 text-right">
+                    Operational
+                  </div>
+                  {{/statusUp}}
+
+                  {{#statusDown}}
+                  <div class="font-bold text-md text-red-500">{{uptimePercentage}} %</div>
+                  {{/statusDown}}
+                  {{#statusUp}}
+                  <div class="font-bold text-md text-green-500">{{uptimePercentage}} %</div>
+                  {{/statusUp}}
+
                 </div>
-                {{/statusUp}}
               </div>
-              <div class="text-sm text-gray-500 mb-4">{{url}}</div>
               <div class="grid gap-1 mb-4" style="grid-template-columns: repeat(60, minmax(0, 1fr));">
                 {{#pings}}
                   {{#statusUp}}

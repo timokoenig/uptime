@@ -68,6 +68,10 @@ export const parseServiceViewModels = (): ServiceViewModel[] => {
       name: service.name,
       url: service.url,
       pings: pingViewModels,
+      uptimePercentage: (
+        (100 / lastXPings.length) *
+        lastXPings.filter(obj => obj.status == 200).length
+      ).toFixed(2),
       LATENCY_MIN: Math.min(...lastXPings.map(obj => obj.latency)).toFixed(0),
       LATENCY_MAX: Math.max(...lastXPings.map(obj => obj.latency)).toFixed(0),
       LATENCY_AVG: (
