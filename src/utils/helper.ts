@@ -59,7 +59,7 @@ export const parseServiceViewModels = (): ServiceViewModel[] => {
     const last5Pings = pings.slice(0, 5)
     const isStatusOk = last5Pings.findIndex(obj => obj.status != 200) == -1
 
-    const lastXPings = pings.slice(0, PING_COUNT)
+    const lastXPings = pings.slice(0, PING_COUNT).sort(sortPingASC)
     const pingViewModels = parsePingViewModels(lastXPings)
 
     return {
