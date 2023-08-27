@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta http-equiv="refresh" content="5; URL=/">
+    <title>uptime</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <main class="flex flex-col items-center m-8">
+     {{#STATUS_DOWN}}
+      <section class="flex flex-row items-center">
+        <div style="width: 20px; height: 20px; margin-right: 10px; border-radius: 10px" class="bg-red-500"></div>
+        <h1 class="text-3xl font-bold">
+          System Status <span class="text-red-500">Failing</span>
+        </h1>
+      </section>
+      {{/STATUS_DOWN}}
+
+     {{#STATUS_UP}}
+      <section class="flex flex-row items-center">
+        <div style="width: 20px; height: 20px; margin-right: 10px; border-radius: 10px" class="bg-green-500"></div>
+        <h1 class="text-3xl font-bold">
+          System Status <span class="text-green-500">Operational</span>
+        </h1>
+      </section>
+      {{/STATUS_UP}}
+
+      <p class="text-gray-500 text-sm mt-2">Last Ping {{LAST_PING}}</p>
+
+      <section class="container max-w-3xl mt-16">
+        <div class="grid grid-cols-1 gap-8">
+
+          {{#services}}
+          <div class="rounded overflow-hidden shadow-lg">
+            <div class="px-6 py-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="font-bold text-xl mb-1">
+                  {{name}}
+                </div>
+
+                {{#statusDown}}
+                <div class="font-bold text-md mb-1 text-red-500 text-right">
+                  Failed
+                </div>
+                {{/statusDown}}
+                {{#statusUp}}
+                <div class="font-bold text-md mb-1 text-green-500 text-right">
+                  Operational
+                </div>
+                {{/statusUp}}
+              </div>
+              <div class="text-sm text-gray-500 mb-4">{{url}}</div>
+              <div class="grid gap-1" style="grid-template-columns: repeat(60, minmax(0, 1fr));">
+                {{#pings}}
+                  {{#statusUp}}
+                  <div style="height: 30px" class="bg-green-500 hover:bg-green-600 rounded"></div>
+                  {{/statusUp}}
+                  {{#statusDown}}
+                  <div style="height: 30px" class="bg-red-500 hover:bg-red-600 rounded"></div>
+                  {{/statusDown}}
+                  {{#statusUnknown}}
+                  <div style="height: 30px" class="bg-gray-300 hover:bg-gray-400 rounded"></div>
+                  {{/statusUnknown}}
+                {{/pings}}
+              </div>
+            </div>
+          </div>
+          {{/services}}
+
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

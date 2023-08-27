@@ -1,15 +1,22 @@
 import * as http from 'http'
-import { readConfig } from '../utils/helper'
-import { renderHtmlTemplate } from '../utils/html'
+import moment from 'moment'
+import { parseServiceViewModels } from '../utils/helper'
+import { renderMainTemplate } from '../utils/html'
 
-const indexHandler = (req: http.IncomingMessage, res: http.ServerResponse) => {
-  const config = readConfig()
-  console.log(config)
-  const html = renderHtmlTemplate({ count: 0 })
+export const webHandler = (req: http.IncomingMessage, res: http.ServerResponse) => {
+  const serviceViewModels = parseServiceViewModels()
+  const systemStatusOK = serviceViewModels.findIndex(obj => obj.statusDown) == -1
+
+  const lastPing = serviceViewModels[0].pings[0].date
+
+  const html = renderMainTemplate({
+    LAST_PING: moment(lastPing).format('DD.MM.YYYY HH:mm'),
+    STATUS_UP: systemStatusOK,
+    STATUS_DOWN: !systemStatusOK,
+    services: serviceViewModels,
+  })
 
   res.statusCode = 200
   res.setHeader('Content-Type', 'text/html')
   res.end(html)
 }
-
-export default indexHandler

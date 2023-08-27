@@ -12,12 +12,7 @@ export type Service = {
   url: string
 }
 
-export enum INTERVAL {
-  MINUTE = 'minute',
-}
-
 export type Config = {
-  interval: INTERVAL
   notification: Notification[]
   services: Service[]
 }
