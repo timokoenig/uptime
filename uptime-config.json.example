@@ -1,0 +1,15 @@
+{
+  "interval": "minute",
+  "notification": [
+    {
+      "type": "email",
+      "email": "email@example.com"
+    }
+  ],
+  "services": [
+    {
+      "Website": "Website",
+      "url": "https://example.com"
+    }
+  ]
+}
