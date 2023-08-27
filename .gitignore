@@ -134,3 +134,6 @@ build/
 
 # Service config
 uptime-config.json
+
+# database
+db.json
