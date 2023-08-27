@@ -1,6 +1,8 @@
 import moment from 'moment'
+import { NOTIFICATION_TYPE } from '../models/config'
 import { writePing } from '../utils/db'
 import { readConfig } from '../utils/helper'
+import { sendEmailNotification } from '../utils/mail'
 
 export const cronHandler = async () => {
   try {
@@ -23,6 +25,13 @@ export const cronHandler = async () => {
       } else {
         console.log(
           `${moment().toISOString()} | ⬅️  Pong failed ${service.url} | Status ${response.status}`
+        )
+        await Promise.all(
+          config.notification.map(async notification => {
+            if (notification.type == NOTIFICATION_TYPE.EMAIL) {
+              await sendEmailNotification(service.name, service.url, notification.email)
+            }
+          })
         )
       }
 
