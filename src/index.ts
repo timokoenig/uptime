@@ -1,4 +1,5 @@
 import * as http from 'http'
+import moment from 'moment'
 import * as cron from 'node-cron'
 import webHandler from './handler/web'
 
@@ -7,7 +8,7 @@ const port = 3000
 
 // Run cron job
 cron.schedule('* * * * *', () => {
-  console.log('running a task every minute')
+  console.log(`running a task every minute - ${moment().toISOString()}`)
 })
 
 // Run web server
