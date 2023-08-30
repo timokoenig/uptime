@@ -7,7 +7,7 @@
   ],
   "services": [
     {
-      "Website": "Website",
+      "name": "Website",
       "url": "https://example.com"
     }
   ]
