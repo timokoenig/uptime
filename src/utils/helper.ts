@@ -13,15 +13,15 @@ export const sortPingDESC = (a: Ping, b: Ping): number =>
   moment(a.date).isSameOrBefore(moment(b.date))
     ? 1
     : moment(a.date).isAfter(moment(b.date))
-    ? -1
-    : 0
+      ? -1
+      : 0
 
 export const sortPingASC = (a: Ping, b: Ping): number =>
   moment(a.date).isSameOrBefore(moment(b.date))
     ? -1
     : moment(a.date).isAfter(moment(b.date))
-    ? 1
-    : 0
+      ? 1
+      : 0
 
 const parsePingViewModels = (pings: Ping[]): PingViewModel[] => {
   const models: PingViewModel[] = []
