@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import moment from 'moment'
-import { Config } from '../models/config'
+import { Config, Service, ServiceResponse } from '../models/config'
 import { Ping, PingViewModel, ServiceViewModel } from '../models/service'
 import { readPingsForService } from './db'
 
@@ -23,7 +23,7 @@ export const sortPingASC = (a: Ping, b: Ping): number =>
       ? 1
       : 0
 
-const parsePingViewModels = (pings: Ping[]): PingViewModel[] => {
+const parsePingViewModels = (pings: Ping[], service: Service): PingViewModel[] => {
   const models: PingViewModel[] = []
 
   const numberUnknownPings = PING_COUNT - pings.length
@@ -42,8 +42,8 @@ const parsePingViewModels = (pings: Ping[]): PingViewModel[] => {
     models.push({
       date: moment(ping.date).format('DD.MM.YYYY HH:mm'),
       latency: ping.latency.toFixed(0),
-      statusUp: ping.status == 200,
-      statusDown: ping.status != 200,
+      statusUp: isValidResponse(ping.status, service.response),
+      statusDown: !isValidResponse(ping.status, service.response),
       statusUnknown: false,
     })
   })
@@ -58,10 +58,11 @@ export const parseServiceViewModels = (): ServiceViewModel[] => {
     const pings = readPingsForService(service.url).sort(sortPingDESC)
 
     const last5Pings = pings.slice(0, 5)
-    const isStatusOk = last5Pings.findIndex(obj => obj.status != 200) == -1
+    const isStatusOk =
+      last5Pings.findIndex(obj => !isValidResponse(obj.status, service.response)) == -1
 
     const lastXPings = pings.slice(0, PING_COUNT).sort(sortPingASC)
-    const pingViewModels = parsePingViewModels(lastXPings)
+    const pingViewModels = parsePingViewModels(lastXPings, service)
 
     return {
       statusUp: isStatusOk,
@@ -71,7 +72,7 @@ export const parseServiceViewModels = (): ServiceViewModel[] => {
       pings: pingViewModels,
       uptimePercentage: (
         (100 / lastXPings.length) *
-        lastXPings.filter(obj => obj.status == 200).length
+        lastXPings.filter(obj => isValidResponse(obj.status, service.response)).length
       ).toFixed(2),
       LATENCY_MIN: Math.min(...lastXPings.map(obj => obj.latency)).toFixed(0),
       LATENCY_MAX: Math.max(...lastXPings.map(obj => obj.latency)).toFixed(0),
@@ -80,4 +81,50 @@ export const parseServiceViewModels = (): ServiceViewModel[] => {
       ).toFixed(0),
     }
   })
+}
+
+export const parseRequestBody = (service: Service): BodyInit | undefined => {
+  if (service.data === undefined) {
+    return undefined
+  }
+
+  if (service.headers !== undefined && service.headers['Content-Type'] == 'application/json') {
+    return JSON.stringify(service.data)
+  }
+
+  if (
+    service.headers !== undefined &&
+    service.headers['Content-Type'] == 'application/x-www-form-urlencoded'
+  ) {
+    return Object.entries(service.data)
+      .map((key, value) => `${key}=${encodeURIComponent(value)}`)
+      .join('&') as BodyInit
+  }
+
+  return service.data as BodyInit
+}
+
+export const parseRequestUrl = (service: Service): string => {
+  if (
+    service.headers !== undefined &&
+    service.headers['Content-Type'] == 'application/x-www-form-urlencoded' &&
+    service.data !== undefined
+  ) {
+    const params = Object.entries(service.data)
+      .map((key, value) => `${key}=${encodeURIComponent(value)}`)
+      .join('&')
+    return `${service.url}?${params}`
+  }
+
+  return service.url
+}
+
+export const isValidResponse = (
+  status: number,
+  serviceResponse: ServiceResponse | undefined
+): boolean => {
+  if (serviceResponse === undefined) {
+    return status >= 200 && status < 300
+  }
+  return serviceResponse.ok.includes(status)
 }

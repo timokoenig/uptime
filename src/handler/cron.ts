@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { NOTIFICATION_TYPE } from '../models/config'
 import { readPingsForService, writePing } from '../utils/db'
-import { readConfig } from '../utils/helper'
+import { isValidResponse, readConfig } from '../utils/helper'
 import { sendEmailNotification } from '../utils/mail'
 
 export const cronHandler = async () => {
@@ -13,10 +13,33 @@ export const cronHandler = async () => {
       const date = moment()
       console.log(`${date.toISOString()} | ➡️  Ping ${service.url}`)
 
-      const response = await fetch(service.url)
+      let body: BodyInit | undefined = undefined
+      if (service.data !== undefined) {
+        if (
+          service.headers !== undefined &&
+          service.headers['Content-Type'] == 'application/json'
+        ) {
+          body = JSON.stringify(service.data)
+        } else if (
+          service.headers !== undefined &&
+          service.headers['Content-Type'] == 'application/x-www-form-urlencoded'
+        ) {
+          body = Object.entries(service.data)
+            .map(entry => `${entry[0]}=${encodeURIComponent(entry[1])}`)
+            .join('&') as BodyInit
+        } else {
+          body = service.data as BodyInit
+        }
+      }
+
+      const response = await fetch(service.url, {
+        method: service.method,
+        headers: service.headers as HeadersInit | undefined,
+        body,
+      })
       const latencyMs = moment().diff(date, 'milliseconds')
 
-      if (response.ok) {
+      if (isValidResponse(response.status, service.response)) {
         console.log(
           `${moment().toISOString()} | ⬅️  Pong ${service.url} | ${latencyMs}ms | Status ${
             response.status

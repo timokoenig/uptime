@@ -7,9 +7,21 @@ export type Notification = {
   email: string
 }
 
+export type ServiceResponse = {
+  ok: number[]
+}
+
+export type RequestHeaders = {
+  'Content-Type'?: string
+}
+
 export type Service = {
   name: string
   url: string
+  method?: string
+  headers?: RequestHeaders
+  data?: object
+  response?: ServiceResponse
 }
 
 export type Config = {
